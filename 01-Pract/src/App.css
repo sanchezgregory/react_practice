@@ -1,0 +1,9 @@
+#boxes {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;  
+}
+
+.textboxes {
+  align-self: flex-start;
+}

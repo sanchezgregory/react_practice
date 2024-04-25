@@ -1,0 +1,21 @@
+.card {
+    background-color: aqua;
+    width: 300px;
+    height: 140px;
+    font-family: 'Courier New', Courier, monospace;
+    border: 2px solid #ffe;
+    box-shadow: 5px 5px 10px rgba(2, 34, 123);
+    padding: 10px 10px;
+}
+
+
+.box {
+    width: 800px;
+    height: 800px;
+    border: 2px solid red;
+    background: aqua;
+  }
+  
+  .box-container {
+    border: 2px solid red;
+  }
