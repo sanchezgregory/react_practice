@@ -1,15 +1,12 @@
-
-const URL = 'https://jsonplaceholder.typicode.com/users'
-
 export const FetchData = {
 
-    async getData(fetchType) {
+    async getData(fetchType, url) {
       
       let responseData;
       
       switch(fetchType) {
         case 'async_await':
-            responseData = await this.fetchDataWithAsyncAwait();
+            responseData = await this.fetchDataWithAsyncAwait(url);
           break;
         case '.then':
             responseData = await this.fetchDataWithThen();
@@ -27,9 +24,9 @@ export const FetchData = {
       return responseData;
     },
 
-    async fetchDataWithAsyncAwait() {
+    async fetchDataWithAsyncAwait(url) {
         try {
-            const response = await fetch(URL);
+            const response = await fetch(url);
             const data = await response.json();
             return data;
         } catch (error) {

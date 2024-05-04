@@ -1,7 +1,5 @@
 header,
 nav,
-article,
-aside,
 footer {
     border: 1px solid #000;
 }
@@ -28,7 +26,6 @@ header {
 
 main {
   flex: auto;
-
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -37,13 +34,19 @@ main {
 }
 
 main > nav {
+  color: white;
   width: 200px;
   display: flex;
   flex-flow: column;
+  background: gray;
 }
+ .active {
+  color: black;
+  background: white;
+ }
 
 .itemnav {
-
+  padding: 10px;
 }
 
 main > article {
@@ -61,4 +64,8 @@ main > aside {
 
 footer {
   height: 25px;
+}
+
+article {
+  padding-left: 30px;
 }

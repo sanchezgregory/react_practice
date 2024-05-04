@@ -1,4 +1,4 @@
-import { ADD, UPDATE, REMOVE } from "../constants/postsConstants"
+import { ADD, UPDATE, REMOVE, LOAD } from "../constants/postsConstants"
 
 export default function PostReducer(state, action) {
 
@@ -7,7 +7,7 @@ export default function PostReducer(state, action) {
         case ADD:
             return {
                 ...state,
-                posts: [...state.posts, action.payload]
+                pokemons: [...state.pokemons, action.payload]
             }
 
         case UPDATE:
@@ -15,6 +15,9 @@ export default function PostReducer(state, action) {
 
         case REMOVE:
             return state;
+
+        case LOAD:
+            return {pokemons: action.payload}
 
         default:
             return state

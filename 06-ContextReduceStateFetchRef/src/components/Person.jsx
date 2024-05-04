@@ -1,6 +1,7 @@
 import React, {useState, useRef} from "react";
 import { useContext } from "react"; 
 import { AppContext } from "../contexts/AppContext";
+import { Link } from "react-router-dom";
 
 
 export default function Person({person}) {
@@ -61,7 +62,8 @@ export default function Person({person}) {
                 </div>
                 :
                 <div className="person-item">
-                    <span>Email: {email}</span>
+                    <Link to={`/persona/${email}`} > Email: {email} </Link>
+                    
                     <span>Name: {name} </span>
                     <span>Phone: {phone} </span>
                     <span><button onClick={handleUpdate}>Upd</button></span>

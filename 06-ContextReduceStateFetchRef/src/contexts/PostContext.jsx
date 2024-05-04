@@ -1,29 +1,33 @@
 import { createContext, useReducer } from "react"
 import PostReducer from "../reducers/postReducer"
-import { initialPosts, ADD, REMOVE, UPDATE } from "../constants/postsConstants"
+import { initialData, ADD, REMOVE, UPDATE, LOAD } from "../constants/postsConstants"
 
 export const PostContext = createContext()
 
 export default function PostProvider({children}) {
 
-    const [state, dispatch] = useReducer(PostReducer, initialPosts)
+    const [state, dispatch] = useReducer(PostReducer, initialData)
 
-    const createPost = (post) => {
-        dispatch({type:ADD, payload:post})
+    const createPokemon = (pokemon) => {
+        dispatch({type:ADD, payload:pokemon})
     }
-    const updatePost = (post) => {
-        dispatch({type:UPDATE, payload:post})
+    const updatePokemon = (pokemon) => {
+        dispatch({type:UPDATE, payload:pokemon})
     }
-    const removePost = (id) => {
+    const removePokemon = (id) => {
         dispatch({type:REMOVE, payload:id})
     }
-
+    const loadPokemons = (pokemons) => {
+        dispatch({type:LOAD, payload:pokemons.results})
+    }
+    
     return (
         <PostContext.Provider value={{
-            posts: state.posts,
-            createPost,
-            updatePost,
-            removePost
+            pokemons: state.pokemons,
+            createPokemon,
+            updatePokemon,
+            removePokemon,
+            loadPokemons
         }} >
             {children}
         </PostContext.Provider>

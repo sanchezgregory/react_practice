@@ -1,19 +1,22 @@
-import React, { useEffect, useState, useContext } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { AppContext } from '../contexts/AppContext';
 import { FetchData } from '../functions/getData';
+import { PostContext } from '../contexts/PostContext';
 
 function Header() {
 
   const [isLoading, setIsLoading] = useState(true);
   const {loadPersons} = useContext(AppContext)
+  const {loadPokemons} = useContext(PostContext)
 
   useEffect(() => {
 
     if (isLoading) {
       
       // [1] Using .then 
+      let URL = 'https://jsonplaceholder.typicode.com/users'
       try {
-        const responseData = FetchData.getData('async_await')
+        const responseData = FetchData.getData('async_await', URL)
         responseData.then((data) => {
           loadPersons(data)
           setIsLoading(false)
@@ -21,6 +24,20 @@ function Header() {
       } catch (err) {
         console.log(err)
         loadPersons()
+        setIsLoading(false)
+      }
+
+      // [1] Using .then 
+      URL = 'https://pokeapi.co/api/v2/pokemon?limit=10&offset=0'
+      try {
+        const responseData = FetchData.getData('async_await', URL)
+        responseData.then((data) => {
+          loadPokemons(data)
+          setIsLoading(false)
+        })
+      } catch (err) {
+        console.log(err)
+        loadPokemons()
         setIsLoading(false)
       }
       

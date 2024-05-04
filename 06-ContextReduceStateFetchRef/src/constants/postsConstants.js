@@ -1,16 +1,14 @@
-export const ADD = "add_post"
-export const REMOVE = "remove_post"
-export const UPDATE = "update_post"
-export const LOAD = "load_posts"
-export const FILTER = "filter_post"
+export const ADD = "add_pokemon"
+export const REMOVE = "remove_pokemon"
+export const UPDATE = "update_pokemon"
+export const LOAD = "load_pokemons"
+export const FILTER = "filter_pokemon"
 
-export const initialPost = {
+export const initialPokemons = {
     id:null,
-    postId:null,
-    name:null,
-    email:'',
-    body:''
+    name:'',
+    url: ''
 }
 
 
-export const initialPosts = { posts: [{id:1, name:'post1', body:'asdasd'}, {id:2, name:'post2', body:'ewrtertasdasd'}]}
+export const initialData = { pokemons: []}

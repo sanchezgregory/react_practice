@@ -5,7 +5,7 @@ import Footer from "./Footer"
 export default function Layout() {
     return (
         <>
-            <AppNav />
+        
             <main>
                 Main             
                 <Outlet />

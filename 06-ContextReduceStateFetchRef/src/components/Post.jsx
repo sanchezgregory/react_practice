@@ -1,13 +1,57 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
+import { useNavigate, useLocation } from "react-router-dom"
 import { PostContext } from "../contexts/PostContext"
-import { initialPost } from "../constants/postsConstants"
+import { initialData } from "../constants/postsConstants"
+import { Link } from "react-router-dom"
+import { FetchData } from '../functions/getData';
 
 
 export default function Post() {
 
-    const {posts, createPost} = useContext(PostContext)
-    const [post, setPost] = useState(initialPost)
-    const {name, email, body} = post
+    const {loadPokemons} = useContext(PostContext)
+
+  // Get all query string from url  ?limit=10&offset=0
+  let LIMIT = 10;	
+  const { search } =  useLocation();
+  let query = new URLSearchParams(search);
+  let offset = query.get("offset") ? parseInt(query.get("offset")) :  0;
+  let qty = query.get("qty") ? parseInt(query.get("qty")) : LIMIT;
+  const queryString = `?offset=${offset}&qty=${qty}`
+
+  const [page, setPage] = useState(queryString)
+  
+    // Load queryString with new data
+  let navigate = useNavigate()
+  const handlePrev = ()=>{
+    if((offset-LIMIT) >= 0){
+		navigate({search: `?offset=${offset - LIMIT}&qty=${qty - LIMIT}`})
+        setPage(queryString)
+    }
+  };
+  const handleNext = ()=>{
+	navigate({search: `?offset=${offset + LIMIT}&qty=${qty + LIMIT}`})
+    setPage(queryString)
+  };
+  // end pagination
+
+
+  useEffect(() => {
+    let URL = `https://pokeapi.co/api/v2/pokemon?limit=${qty}&offset=${offset}`
+    try {
+      const responseData = FetchData.getData('async_await', URL)
+      responseData.then((data) => {
+        loadPokemons(data)
+        
+      })
+    } catch (err) {
+      console.log(err)
+      loadPokemons()
+    }
+  }, [page])
+
+    const {pokemons, createPokemon} = useContext(PostContext)
+    const [pokemon, setPost] = useState(initialData)
+    const {name, url} = pokemon
 
     const handleAddPost = (name, value) => {
         setPost((prevState) => {
@@ -24,17 +68,22 @@ export default function Post() {
                 <input type="text" name='name' defaultValue={name} onChange={(e) => handleAddPost(e.target.name, e.target.value)} />
                 <label htmlFor="name">Name</label>
                 <br />
-                <input type="text" name='email' defaultValue={email} onChange={(e) => handleAddPost(e.target.name, e.target.value)} />
-                <label htmlFor="email">Email</label>
+                <input type="text" name='url' defaultValue={url} onChange={(e) => handleAddPost(e.target.name, e.target.value)} />
+                <label htmlFor="url">Url</label>
                 <br />
-                <input type="text" name='body' defaultValue={body} onChange={(e) => handleAddPost(e.target.name, e.target.value)}/>
-                <label htmlFor="body">Body</label>
-                <button onClick={() => createPost(post)}>Agregar post</button>
+                <button onClick={() => createPokemon(pokemon)}>Agregar pokemon</button>
             </form>
 
-            {posts && posts.length > 0 ? posts.map( (post,i) => (
+            <button type="button" onClick={handlePrev}>Prev</button>
+            <button type="button" onClick={handleNext}>Next</button>
+            <hr />
+            <p>Mostrando pokemons desde {offset} la cantidad de: {qty}</p>
+            <p></p>
+            {pokemons && pokemons.length > 0 ? pokemons.map( (pokemon,i) => (
                     // console.log(i, post.name)
-                    <div key={i}> {i} || {post.name} || {post.email} || post.body</div>
+                    <li key={i}>
+                        <Link to={`/pokemon/${pokemon.name}`} >  {pokemons.name} </Link>|| {pokemons.name} || {pokemons.url}
+                    </li>
                 )) : 'nada'
             }   
 
